@@ -1,4 +1,6 @@
-export const INITIAL_ASANA_LIST = [
+import {Asana} from './asana.model';
+
+export const INITIAL_ASANA_LIST: Asana[] = [
   {name: "asana1", image: "asana1img"},
   {name: "asana2", image: "asana2img"},
   {name: "asana3", image: "asana3img"},

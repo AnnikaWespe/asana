@@ -1,20 +1,25 @@
 import {Injectable} from '@angular/core';
 import {INITIAL_ASANA_LIST} from "./asana.data";
+import {Asana, AsanaBlock} from './asana.model';
+
 
 @Injectable()
 export class AsanaService {
 
   playedBefore: boolean;
-  newAsana = [];
-  asanaBlock0 = {asana: [], ageOfBlock: 0};
-  asanaBlock1 = {asana: [], ageOfBlock: 0};
-  asanaBlock2 = {asana: [], ageOfBlock: 0};
-  asanaBlock3 = {asana: [], ageOfBlock: 0};
-  asanaBlock4 = {asana: [], ageOfBlock: 0};
+  newAsana: Asana[] = [];
+  asanaBlock0 = new AsanaBlock([], 0);
+  asanaBlock1 = new AsanaBlock([], 24);
+  asanaBlock2 = new AsanaBlock([], 48);
+  asanaBlock3 = new AsanaBlock([], 120);
+  asanaBlock4 = new AsanaBlock([], 480);
+  now: number;
+
 
 
   constructor() {
     this.playedBefore = (localStorage.getItem("playedBefore") === "true");
+    this.now = new Date().getTime()/1000;
     if (!this.playedBefore) {
       this.initiateGame();
     }
@@ -27,13 +32,14 @@ export class AsanaService {
     this.playedBefore = true;
     localStorage.setItem("playedBefore", "true");
     this.newAsana = INITIAL_ASANA_LIST;
-    this.shuffle(this.newAsana);
-    this.asanaBlock0.asana = this.newAsana.splice(0,3);
+    this.shuffleAll();
+    this.asanaBlock0.asanaArray = this.newAsana.splice(0,3);
     this.updateLocalStorage();
   }
 
   resumeGame() {
     this.getDataFromLocalStorage();
+    this.shuffleAll();
   }
 
   addFourNewAsana() {
@@ -44,24 +50,43 @@ export class AsanaService {
 
   }
 
-  next() {
-
+  next(asanaName? : string, asanaBlockName?: string, knownByUser?: boolean) {
+    if(asana){
+      this.updateAsanaBlocksAccordingToUserAnswer(asanaName, asanaBlockName, knownByUser)
+    }
+    for(let i = 4; i > -1; i--){
+      if()
+    }
   }
 
-  private shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+  private updateAsanaBlocksAccordingToUserAnswer(asanaName, asanaBlockName, knownByUser){
+      if(knownByUser){
+        this[asanaBlockName].asanas
+      }
+      else {
+
+      }
+  }
+
+  private shuffleAll() {
+    for(let i = 0; i < 5; i++){
+       this.shuffle(this['asanaBlock' + i])
+    };
+    this.shuffle(this.newAsana);
+  }
+
+  private shuffle(array){
+        for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
 
   private updateLocalStorage() {
-    localStorage.setItem("newAsana", this.newAsana.toString());
-    localStorage.setItem("asanaBlock0", this.asanaBlock0.toString());
-    localStorage.setItem("asanaBlock1", this.asanaBlock1.toString());
-    localStorage.setItem("asanaBlock2", this.asanaBlock2.toString());
-    localStorage.setItem("asanaBlock3", this.asanaBlock3.toString());
-    localStorage.setItem("asanaBlock4", this.asanaBlock4.toString());
+    for(let i = 0; i < 5; i++){
+      localStorage.setItem('asanaBlock' + i, JSON.stringify(this['asanaBlock' + i]))
+    };
+    localStorage.setItem('newAsana', JSON.stringify(this.newAsana))
   }
 
   private getDataFromLocalStorage(){
