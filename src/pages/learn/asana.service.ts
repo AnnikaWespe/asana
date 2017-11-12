@@ -51,7 +51,7 @@ export class AsanaService {
   }
 
   next(asanaName? : string, asanaBlockName?: string, knownByUser?: boolean) {
-    if(asana){
+    if(asanaName){
       this.updateAsanaBlocksAccordingToUserAnswer(asanaName, asanaBlockName, knownByUser)
     }
     for(let i = 4; i > -1; i--){
@@ -61,7 +61,15 @@ export class AsanaService {
 
   private updateAsanaBlocksAccordingToUserAnswer(asanaName, asanaBlockName, knownByUser){
       if(knownByUser){
-        this[asanaBlockName].asanas
+        let numberOfBlock = Number(asanaBlockName[11])
+        this[asanaBlockName].asanas = this[asanaBlockName].asanas.filter(function(asana) 
+          { 
+            return asana.name !== asanaName})
+        if(numberOfBlock < 4){
+          this["asanaBlock" + (numberOfBlock + 1)].asanas.append()
+        }
+
+
       }
       else {
 
