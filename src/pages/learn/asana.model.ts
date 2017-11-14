@@ -3,12 +3,12 @@ export class AsanaBlock{
 	asanaArray: Asana[];
 	repeatAfterTimeIntervalInHours: number;
 	constructor(array, timeInterval){
-		this.timeStamp = new Date().getTime()/1000;
+		this.timeStamp = new Date().getTime() / 3600000;
 		this.asanaArray = array;
-		this.repeatAfterTimeIntervalInHours = timeInterval / 3600000;
+		this.repeatAfterTimeIntervalInHours = timeInterval;
 	}
 }
- 
+
 export class Asana{
 	name: string;
 	image: string;
