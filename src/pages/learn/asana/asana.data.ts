@@ -18,4 +18,7 @@ export const INITIAL_ASANA_LIST: Asana[] = [
   {name: "asana15", image: "asana15img"},
   {name: "asana16", image: "asana16img"},
   {name: "asana17", image: "asana17img"},
+  {name: "asana18", image: "asana18img"},
+  {name: "asana19", image: "asana19img"},
+  {name: "asana20", image: "asana20img"},
 ];

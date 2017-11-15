@@ -9,16 +9,17 @@ import {Asana} from "./asana/asana.model";
 })
 export class LearnComponent {
 
-  asana: Asana;
-  asanaBlockName: string;
+  currentAsana: {
+      asana: Asana,
+      asanaBlockName: string;
+  }
   stage = 'question';
 
   constructor(private asanaService: AsanaService) {
     let object = this.asanaService.next();
     console.log(object);
     if(object){
-      this.asana = object.asana;
-      this.asanaBlockName = object.asanaBlockName;
+      this.currentAsana = object;
     }
   }
 
@@ -29,14 +30,17 @@ export class LearnComponent {
   }
 
   next(rightAnswer: boolean){
-    let object = this.asanaService.next(this.asanaBlockName, rightAnswer);
+    let object = this.asanaService.next(this.currentAsana.asanaBlockName, rightAnswer);
     if(object){
-      this.asana = object.asana;
-      this.asanaBlockName = object.asanaBlockName;
+      this.currentAsana = object;
     }
     else{
       this.stage = 'finished';
     }
+  }
+
+  addSixNewAsana(){
+    this.currentAsana = this.asanaService.addSixNewAsana();
   }
 
 }
