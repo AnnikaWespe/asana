@@ -7,18 +7,18 @@ import {Asana, AsanaBlock} from './asana.model';
 export class AsanaService {
 
   playedBefore: boolean;
-  newAsana: Asana[] = [];
+  newAsanaArray: Asana[] = [];
   asanaBlock0 = new AsanaBlock([], 0);
   asanaBlock1 = new AsanaBlock([], 24);
   asanaBlock2 = new AsanaBlock([], 48);
   asanaBlock3 = new AsanaBlock([], 120);
   asanaBlock4 = new AsanaBlock([], 480);
-  now: number;
+  nowInHours: number;
 
 
   constructor() {
     this.playedBefore = (localStorage.getItem("playedBefore") === "true");
-    this.now = new Date().getTime() / 3600000;
+    this.nowInHours = new Date().getTime() / 3600000;
     if (!this.playedBefore) {
       this.initiateGame();
     }
@@ -30,9 +30,9 @@ export class AsanaService {
   private initiateGame() {
     this.playedBefore = true;
     localStorage.setItem("playedBefore", "true");
-    this.newAsana = INITIAL_ASANA_LIST;
+    this.newAsanaArray = INITIAL_ASANA_LIST;
     this.shuffleAll();
-    this.asanaBlock0.asanaArray = this.newAsana.splice(0, 4);
+    this.asanaBlock0.asanaArray = this.newAsanaArray.splice(0, 4);
     this.updateLocalStorage();
   }
 
@@ -42,7 +42,7 @@ export class AsanaService {
   }
 
   addFourNewAsana() {
-    this.asanaBlock0.asanaArray = this.newAsana.splice(0, 3);
+    this.asanaBlock0.asanaArray = this.newAsanaArray.splice(0, 3);
     this.updateLocalStorage();
   }
 
@@ -66,8 +66,8 @@ export class AsanaService {
   }
 
   checkAgeAndIfNonEmpty(asanaBlock: AsanaBlock) {
-    console.log('now', this.now, 'then', asanaBlock.timeStamp, 'diff in hrs', (this.now - asanaBlock.timeStamp) / 24)
-    if (asanaBlock.asanaArray.length && (this.now - asanaBlock.timeStamp) / 24 >= asanaBlock.repeatAfterTimeIntervalInHours) {
+    console.log('now', this.nowInHours, 'then', asanaBlock.timeStamp, 'diff in hrs', (this.nowInHours - asanaBlock.timeStamp) / 24)
+    if (asanaBlock.asanaArray.length && (this.nowInHours - asanaBlock.timeStamp) / 24 >= asanaBlock.repeatAfterTimeIntervalInHours) {
       console.log(asanaBlock);
       return true;
     }
@@ -99,7 +99,7 @@ export class AsanaService {
       this.shuffle(this['asanaBlock' + i])
     }
     ;
-    this.shuffle(this.newAsana);
+    this.shuffle(this.newAsanaArray);
   }
 
   private shuffle(array) {
@@ -114,11 +114,11 @@ export class AsanaService {
       localStorage.setItem('asanaBlock' + i, JSON.stringify(this['asanaBlock' + i]))
     }
     ;
-    localStorage.setItem('newAsana', JSON.stringify(this.newAsana))
+    localStorage.setItem('newAsana', JSON.stringify(this.newAsanaArray))
   }
 
   private getDataFromLocalStorage() {
-    this.newAsana = JSON.parse(localStorage.getItem("newAsana"));
+    this.newAsanaArray = JSON.parse(localStorage.getItem("newAsana"));
     this.asanaBlock0 = JSON.parse(localStorage.getItem("asanaBlock0"));
     this.asanaBlock1 = JSON.parse(localStorage.getItem("asanaBlock1"));
     this.asanaBlock2 = JSON.parse(localStorage.getItem("asanaBlock2"));

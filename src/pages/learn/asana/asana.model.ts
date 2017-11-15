@@ -1,5 +1,5 @@
 export class AsanaBlock{
-	timeStamp: number;
+	timeThenInHours: number;
 	asanaArray: Asana[];
 	repeatAfterTimeIntervalInHours: number;
 	constructor(array, timeInterval){
