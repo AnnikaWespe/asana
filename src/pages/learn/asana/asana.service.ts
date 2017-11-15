@@ -50,7 +50,7 @@ export class AsanaService {
     localStorage.clear();
   }
 
-  next(asanaName?: string, asanaBlockName?: string, knownByUser?: boolean) {
+  next(asanaBlockName?: string, knownByUser?: boolean) {
     if (asanaName) {
       this.updateAsanaBlocksAccordingToUserAnswer(asanaName, asanaBlockName, knownByUser)
     }
@@ -66,8 +66,8 @@ export class AsanaService {
   }
 
   checkAgeAndIfNonEmpty(asanaBlock: AsanaBlock) {
-    console.log('now', this.nowInHours, 'then', asanaBlock.timeStamp, 'diff in hrs', (this.nowInHours - asanaBlock.timeStamp) / 24)
-    if (asanaBlock.asanaArray.length && (this.nowInHours - asanaBlock.timeStamp) / 24 >= asanaBlock.repeatAfterTimeIntervalInHours) {
+    console.log('now', this.nowInHours, 'then', asanaBlock.timeThenInHours, 'diff in hrs', (this.nowInHours - asanaBlock.timeThenInHours) / 24)
+    if (asanaBlock.asanaArray.length && (this.nowInHours - asanaBlock.timeThenInHours) / 24 >= asanaBlock.repeatAfterTimeIntervalInHours) {
       console.log(asanaBlock);
       return true;
     }

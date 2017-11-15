@@ -4,14 +4,22 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <div *ngIf="stage === 'question'"><h1>{{asana.image}}</h1>
+<ion-content padding *ngIf="stage === 'question'" class = "question">
+  <div><h1>{{asana.image}}</h1>
     <button (click)="getAnswer()">Get me the answer!</button>
   </div>
-  <div *ngIf="stage === 'answer'"><h1>{{asana.image}}</h1>
+</ion-content>
+
+<ion-content padding *ngIf="stage === 'answer'" class = "answer">
+  <div><h1>{{asana.image}}</h1>
     <h1>{{asana.name}}</h1>
     <button (click)="next(true)">I knew it!</button>
     <button (click)="next(false)">Nope, didn't see that coming.</button>
   </div>
+</ion-content>
+
+<ion-content padding *ngIf="stage === 'finished'">
+  <p>You're done for today!</p>
+  <button>Learn six new asana</button>
 
 </ion-content>

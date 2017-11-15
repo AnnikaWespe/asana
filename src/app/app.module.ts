@@ -10,7 +10,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {LearnComponent} from "../pages/learn/learn.component";
-import {AsanaService} from "../pages/learn/asana.service";
+import {AsanaService} from "../pages/learn/asana/asana.service";
 
 @NgModule({
   declarations: [
