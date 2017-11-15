@@ -43,7 +43,6 @@ export class AsanaService {
 
 
   stillAsanaAvailable(){
-    console.log(this.newAsanaArray.length + this.asanaBlock0.asanaArray.length + this.asanaBlock1.asanaArray.length + this.asanaBlock2.asanaArray.length + this.asanaBlock3.asanaArray.length + this.asanaBlock4.asanaArray.length);
     if(this.newAsanaArray.length + this.asanaBlock0.asanaArray.length + this.asanaBlock1.asanaArray.length + this.asanaBlock2.asanaArray.length + this.asanaBlock3.asanaArray.length + this.asanaBlock4.asanaArray.length === 0){
       return {stillAsanaAvailable: false,
               stillNewAsanaToAdd: false};
@@ -100,8 +99,9 @@ export class AsanaService {
     let asana = this[asanaBlockName].asanaArray.shift();
     let numberOfBlock = Number(asanaBlockName[10]);
     if (knownByUser && (numberOfBlock < 4)) {
-      console.log(this["asanaBlock" + (numberOfBlock + 1)])
-        this["asanaBlock" + (numberOfBlock + 1)].asanaArray.push(asana);
+        let block: AsanaBlock = this["asanaBlock" + (numberOfBlock + 1)];
+        block.asanaArray.push(asana);
+        block.timeThenInHours = this.nowInHours;
         }
     else if (numberOfBlock < 4){
         this.asanaBlock0.asanaArray.push(asana);
