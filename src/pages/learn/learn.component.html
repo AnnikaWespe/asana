@@ -1,29 +1,27 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
+
 
 <ion-content padding *ngIf="stage === 'question'" class = "question">
-  <div><h1>{{currentAsana.asana.image}}</h1>
-    <button (click)="getAnswer()">Get me the answer!</button>
-  </div>
+  <h1>{{currentAsana.asana.image}}</h1>
+    <button (click)="getAnswer()">Give me the answer!</button>
 </ion-content>
 
 <ion-content padding *ngIf="stage === 'answer'" class = "answer">
-  <div><h1>{{currentAsana.asana.image}}</h1>
+
+    <h1>{{currentAsana.asana.image}}</h1>
     <h1>{{currentAsana.asana.name}}</h1>
+
     <button (click)="next(true)">I knew it!</button>
     <button (click)="next(false)">Nope, didn't see that coming.</button>
-  </div>
 </ion-content>
 
-<ion-content padding *ngIf="stage === 'finishedForToday'">
+<ion-content padding *ngIf="stage === 'finishedForToday'" class = "finishedForToday">
   <p>You're done for today!</p>
-  <button (click) = "addSixNewAsana()">Learn some new asana</button>
+  <button (click) = "addSixNewAsana()" *ngIf = "stillNewAsanaToAdd">Learn some new asana</button>
+  <button (click) = "reset()" *ngIf = "!stillNewAsanaToAdd">Fresh Start?</button>
+
 </ion-content>
 
-<ion-content padding *ngIf="stage === 'finished'">
+<ion-content padding *ngIf="stage === 'finished'" class = "finished">
   <p>You've learned all asanas in this series!</p>
   <button (click) = "reset()">Reset and play again</button>
 </ion-content>

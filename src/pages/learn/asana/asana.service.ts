@@ -42,17 +42,24 @@ export class AsanaService {
   }
 
 
-  stillAsanasAvailable(){
-    if(this.newAsanaArray.length || this.asanaBlock0.asanaArray.length || this.asanaBlock1.asanaArray.length || this.asanaBlock2.asanaArray.length || this.asanaBlock3.asanaArray.length || this.asanaBlock4.asanaArray.length){
-      return true;
+  stillAsanaAvailable(){
+    console.log(this.newAsanaArray.length + this.asanaBlock0.asanaArray.length + this.asanaBlock1.asanaArray.length + this.asanaBlock2.asanaArray.length + this.asanaBlock3.asanaArray.length + this.asanaBlock4.asanaArray.length);
+    if(this.newAsanaArray.length + this.asanaBlock0.asanaArray.length + this.asanaBlock1.asanaArray.length + this.asanaBlock2.asanaArray.length + this.asanaBlock3.asanaArray.length + this.asanaBlock4.asanaArray.length === 0){
+      return {stillAsanaAvailable: false,
+              stillNewAsanaToAdd: false};
     }
     else {
-      return false;
+      let stillNewAsanaToAdd = (this.newAsanaArray.length > 0);
+      return {
+        stillAsanaAvailable: true,
+        stillNewAsanaToAdd: stillNewAsanaToAdd
+      };
     }
   }
 
   addSixNewAsana() {
-    this.asanaBlock0.asanaArray.push.apply(this.newAsanaArray.splice(0, 6));
+    let newAsanaForBlock0 = this.newAsanaArray.splice(0, 6);
+    Array.prototype.push.apply(this.asanaBlock0.asanaArray, newAsanaForBlock0);
     console.log(this.asanaBlock0);
     this.updateLocalStorage();
     return({asana: this.asanaBlock0.asanaArray[0], asanaBlockName: "asanaBlock0"})
@@ -92,7 +99,6 @@ export class AsanaService {
   private updateAsanaBlocksAccordingToUserAnswer(asanaBlockName, knownByUser) {
     let asana = this[asanaBlockName].asanaArray.shift();
     let numberOfBlock = Number(asanaBlockName[10]);
-    console.log(numberOfBlock);
     if (knownByUser && (numberOfBlock < 4)) {
       console.log(this["asanaBlock" + (numberOfBlock + 1)])
         this["asanaBlock" + (numberOfBlock + 1)].asanaArray.push(asana);

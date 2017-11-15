@@ -14,13 +14,23 @@ export class LearnComponent {
       asanaBlockName: string;
   }
   stage = 'question';
+  stillNewAsanaToAdd;
 
   constructor(private asanaService: AsanaService) {
     let object = this.asanaService.next();
     if(object){
       this.currentAsana = object;
     }
-    else {this.stage = "finished"}
+    else{
+        let boxesInfoObject = this.asanaService.stillAsanaAvailable();
+        if(boxesInfoObject.stillAsanaAvailable){
+        this.stage = 'finishedForToday';
+        this.stillNewAsanaToAdd = boxesInfoObject.stillNewAsanaToAdd;
+          }
+        else {
+          this.stage = "finished";
+          }
+      }
   }
 
 
@@ -33,14 +43,17 @@ export class LearnComponent {
     let object = this.asanaService.next(this.currentAsana.asanaBlockName, rightAnswer);
     if(object){
       this.currentAsana = object;
+    //  this.stage = "question";
     }
     else{
-      if(this.asanaService.stillAsanasAvailable){
-              this.stage = 'finishedForToday';
-      }
-      else {
-        this.stage = "finished";
-      }
+        let boxesInfoObject = this.asanaService.stillAsanaAvailable()
+        if(boxesInfoObject.stillAsanaAvailable){
+        this.stage = 'finishedForToday';
+        this.stillNewAsanaToAdd = boxesInfoObject.stillNewAsanaToAdd;
+          }
+        else {
+          this.stage = "finished";
+          }
     }
   }
 
