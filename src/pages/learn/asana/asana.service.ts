@@ -9,10 +9,10 @@ export class AsanaService {
   playedBefore: boolean;
   newAsanaArray: Asana[] = [];
   asanaBlock0 = new AsanaBlock([], 0);
-  asanaBlock1 = new AsanaBlock([], 24);
-  asanaBlock2 = new AsanaBlock([], 48);
-  asanaBlock3 = new AsanaBlock([], 120);
-  asanaBlock4 = new AsanaBlock([], 480);
+  asanaBlock1 = new AsanaBlock([], 0.01);
+  asanaBlock2 = new AsanaBlock([], 0.02);
+  asanaBlock3 = new AsanaBlock([], 0.03);
+  asanaBlock4 = new AsanaBlock([], 0.04);
   nowInHours: number;
 
 
@@ -87,6 +87,7 @@ export class AsanaService {
   }
 
   private checkAgeAndIfNonEmpty(asanaBlock: AsanaBlock) {
+    console.log(this.nowInHours - asanaBlock.timeThenInHours);
     if (asanaBlock.asanaArray.length && (this.nowInHours - asanaBlock.timeThenInHours) >= asanaBlock.repeatAfterTimeIntervalInHours) {
       return true;
     }
