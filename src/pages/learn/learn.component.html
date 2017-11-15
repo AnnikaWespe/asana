@@ -18,8 +18,12 @@
   </div>
 </ion-content>
 
-<ion-content padding *ngIf="stage === 'finished'">
+<ion-content padding *ngIf="stage === 'finishedForToday'">
   <p>You're done for today!</p>
-  <button (click) = "addFourNewAsana()">Learn six new asana</button>
+  <button (click) = "addSixNewAsana()">Learn some new asana</button>
+</ion-content>
 
+<ion-content padding *ngIf="stage === 'finished'">
+  <p>You've learned all asanas in this series!</p>
+  <button (click) = "reset()">Reset and play again</button>
 </ion-content>

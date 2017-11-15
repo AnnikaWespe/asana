@@ -17,10 +17,10 @@ export class LearnComponent {
 
   constructor(private asanaService: AsanaService) {
     let object = this.asanaService.next();
-    console.log(object);
     if(object){
       this.currentAsana = object;
     }
+    else {this.stage = "finished"}
   }
 
 
@@ -35,12 +35,25 @@ export class LearnComponent {
       this.currentAsana = object;
     }
     else{
-      this.stage = 'finished';
+      if(this.asanaService.stillAsanasAvailable){
+              this.stage = 'finishedForToday';
+      }
+      else {
+        this.stage = "finished";
+      }
     }
   }
 
+
   addSixNewAsana(){
     this.currentAsana = this.asanaService.addSixNewAsana();
+    console.log(this.currentAsana);
+    this.stage = "question"
+  }
+
+  reset(){
+    this.asanaService.resetGame();
+    this.currentAsana = this.asanaService.next();
   }
 
 }

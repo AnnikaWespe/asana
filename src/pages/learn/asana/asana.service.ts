@@ -36,19 +36,31 @@ export class AsanaService {
     this.updateLocalStorage();
   }
 
-  resumeGame() {
+  private resumeGame() {
     this.getDataFromLocalStorage();
     this.shuffleAll();
   }
 
+
+  stillAsanasAvailable(){
+    if(this.newAsanaArray.length || this.asanaBlock0.asanaArray.length || this.asanaBlock1.asanaArray.length || this.asanaBlock2.asanaArray.length || this.asanaBlock3.asanaArray.length || this.asanaBlock4.asanaArray.length){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   addSixNewAsana() {
     this.asanaBlock0.asanaArray.push.apply(this.newAsanaArray.splice(0, 6));
+    console.log(this.asanaBlock0);
     this.updateLocalStorage();
     return({asana: this.asanaBlock0.asanaArray[0], asanaBlockName: "asanaBlock0"})
   }
 
   resetGame() {
     localStorage.clear();
+    this.initiateGame();
   }
 
   next(asanaBlockName?: string, knownByUser?: boolean) {
@@ -68,7 +80,7 @@ export class AsanaService {
     this.logAllArrays();
   }
 
-  checkAgeAndIfNonEmpty(asanaBlock: AsanaBlock) {
+  private checkAgeAndIfNonEmpty(asanaBlock: AsanaBlock) {
     if (asanaBlock.asanaArray.length && (this.nowInHours - asanaBlock.timeThenInHours) >= asanaBlock.repeatAfterTimeIntervalInHours) {
       return true;
     }
@@ -79,10 +91,10 @@ export class AsanaService {
 
   private updateAsanaBlocksAccordingToUserAnswer(asanaBlockName, knownByUser) {
     let asana = this[asanaBlockName].asanaArray.shift();
-    console.log(asana);
-    console.log(this[asanaBlockName].asanaArray)
-    let numberOfBlock = Number(asanaBlockName[11]);
+    let numberOfBlock = Number(asanaBlockName[10]);
+    console.log(numberOfBlock);
     if (knownByUser && (numberOfBlock < 4)) {
+      console.log(this["asanaBlock" + (numberOfBlock + 1)])
         this["asanaBlock" + (numberOfBlock + 1)].asanaArray.push(asana);
         }
     else if (numberOfBlock < 4){
@@ -123,10 +135,11 @@ export class AsanaService {
   }
   private logAllArrays(){
     console.log(this.newAsanaArray);
-    console.log(this.asanaBlock0);
-    console.log(this.asanaBlock1);
-    console.log(this.asanaBlock2);
-    console.log(this.asanaBlock3);
-    console.log(this.asanaBlock4);
+    console.log(this.asanaBlock0.asanaArray);
+    console.log(this.asanaBlock1.asanaArray);
+    console.log(this.asanaBlock2.asanaArray);
+    console.log(this.asanaBlock3.asanaArray);
+    console.log(this.asanaBlock4.asanaArray);
   }
+
 }
